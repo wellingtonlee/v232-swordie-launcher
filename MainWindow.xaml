@@ -263,7 +263,7 @@
                                 </StackPanel>
                             </StackPanel>
 
-                            <Button x:Name="PlayButton" Style="{DynamicResource GlowButton}" Padding="0,18" FontSize="16" Click="PlayButton_Click">
+                            <Button x:Name="PlayButton" Style="{DynamicResource GlowButton}" Padding="0,18" FontSize="16" Click="PlayButton_Click" IsDefault="True">
                                 <StackPanel Orientation="Horizontal">
                                     <Path Data="M8,5 L19,12 L8,19 Z" Fill="White" Width="18" Height="18" Stretch="Uniform" Margin="0,0,12,0"/>
                                     <TextBlock Text="PLAY NOW" VerticalAlignment="Center"/>
