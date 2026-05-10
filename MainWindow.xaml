@@ -194,7 +194,7 @@
                                       Margin="0,0,0,25" FontSize="12"
                                       Checked="RememberMe_Changed" Unchecked="RememberMe_Changed"/>
 
-                            <Button x:Name="LoginButton" Style="{DynamicResource GlowButton}" Content="SIGN IN" Padding="0,15" FontSize="14" Click="LoginButton_Click"/>
+                            <Button x:Name="LoginButton" Style="{DynamicResource GlowButton}" Content="SIGN IN" Padding="0,15" FontSize="14" Click="LoginButton_Click" IsDefault="True"/>
 
                             <TextBlock HorizontalAlignment="Center" Margin="0,25,0,0" FontSize="13">
                                 <Run Text="Don't have an account? " Foreground="{DynamicResource TextMutedBrush}"/>
