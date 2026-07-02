@@ -194,7 +194,7 @@
                                       Margin="0,0,0,25" FontSize="12"
                                       Checked="RememberMe_Changed" Unchecked="RememberMe_Changed"/>
 
-                            <Button x:Name="LoginButton" Style="{DynamicResource GlowButton}" Content="SIGN IN" Padding="0,15" FontSize="14" Click="LoginButton_Click"/>
+                            <Button x:Name="LoginButton" Style="{DynamicResource GlowButton}" Content="SIGN IN" Padding="0,15" FontSize="14" Click="LoginButton_Click" IsDefault="True"/>
 
                             <TextBlock HorizontalAlignment="Center" Margin="0,25,0,0" FontSize="13">
                                 <Run Text="Don't have an account? " Foreground="{DynamicResource TextMutedBrush}"/>
@@ -263,7 +263,7 @@
                                 </StackPanel>
                             </StackPanel>
 
-                            <Button x:Name="PlayButton" Style="{DynamicResource GlowButton}" Padding="0,18" FontSize="16" Click="PlayButton_Click">
+                            <Button x:Name="PlayButton" Style="{DynamicResource GlowButton}" Padding="0,18" FontSize="16" Click="PlayButton_Click" IsDefault="True">
                                 <StackPanel Orientation="Horizontal">
                                     <Path Data="M8,5 L19,12 L8,19 Z" Fill="White" Width="18" Height="18" Stretch="Uniform" Margin="0,0,12,0"/>
                                     <TextBlock Text="PLAY NOW" VerticalAlignment="Center"/>
