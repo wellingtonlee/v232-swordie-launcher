@@ -60,13 +60,37 @@ This protocol applies when ending a Beads implementation workflow. It is subordi
 
 ## Build & Test
 
-_Add your build and test commands here_
+This is a **.NET Framework 4.8 WPF** app (`OutputType=WinExe`, x64). It can only
+be **built on Windows** — WPF's XAML/markup compiler and the .NET Framework 4.8
+reference assemblies are Windows-only, so it cannot be built on macOS/Linux (native
+or in a Linux Docker container), and Docker Desktop on Apple Silicon can't run
+Windows containers.
+
+**Build from any OS via CI (recommended, no local Windows needed):**
 
 ```bash
-# Example:
-# npm install
-# npm test
+# Manual run of the Windows build (uploads the .exe as an artifact):
+gh workflow run build.yml
+gh run watch                    # wait for green
+gh run download                 # fetch v232-launcher-win-x64 artifact
+
+# Cut a Release with the .exe attached: push a version tag
+git tag v232.x && git push origin v232.x
 ```
+
+The workflow lives at `.github/workflows/build.yml` and runs on `windows-latest`
+(MSBuild + .NET FW 4.8 dev pack are preinstalled). It is **manual-only** —
+`workflow_dispatch` + `v*` tag push; it does not build on ordinary pushes/PRs.
+
+**Build locally (Windows only):**
+
+```powershell
+nuget restore v232.Launcher.WPF.sln
+msbuild v232.Launcher.WPF.csproj /p:Configuration=Release /t:Rebuild
+# Output: bin\Release\v232 Launcher.exe  (+ WpfAnimatedGif.dll)
+```
+
+There are no automated tests.
 
 ## Architecture Overview
 

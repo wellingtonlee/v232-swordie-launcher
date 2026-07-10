@@ -1,0 +1,68 @@
+name: Build (Windows x64)
+
+# Manual-only: click "Run workflow", or push a v* tag to build + publish a Release.
+# No build on ordinary pushes/PRs.
+on:
+  workflow_dispatch:
+    inputs:
+      make_release:
+        description: "Also publish a GitHub Release with the built .exe"
+        type: boolean
+        default: false
+      release_tag:
+        description: "Tag/name for the Release (used only when make_release=true)"
+        type: string
+        default: ""
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Set up NuGet
+        uses: nuget/setup-nuget@v2
+
+      # WpfAnimatedGif 2.0.2 is already vendored under packages/, so this is
+      # effectively a no-op, but keeps the pipeline correct if that changes.
+      - name: NuGet restore
+        run: nuget restore v232.Launcher.WPF.sln
+
+      # Build the .csproj directly: its Release|AnyCPU PropertyGroup sets
+      # PlatformTarget=x64, producing an x64 binary in bin\Release\.
+      - name: Build (Release, x64)
+        run: msbuild v232.Launcher.WPF.csproj /p:Configuration=Release /t:Rebuild
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: v232-launcher-win-x64
+          if-no-files-found: error
+          path: |
+            bin/Release/v232 Launcher.exe
+            bin/Release/WpfAnimatedGif.dll
+
+      # Publish a Release when triggered by a v* tag, or by a manual run with
+      # make_release=true. softprops/action-gh-release infers the tag from the
+      # ref on tag pushes; for manual runs it uses the provided release_tag.
+      - name: Publish Release
+        if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && inputs.make_release)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.release_tag || github.ref_name }}
+          name: ${{ inputs.release_tag || github.ref_name }}
+          generate_release_notes: true
+          files: |
+            bin/Release/v232 Launcher.exe
+            bin/Release/WpfAnimatedGif.dll

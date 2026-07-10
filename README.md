@@ -58,6 +58,38 @@ If you don’t know how to fix things on your own, this repo is **not for you**.
 
 ---
 
+## 🛠️ Building
+
+This is a **.NET Framework 4.8 WPF** app, so the `.exe` can only be built on
+Windows. You don't need a local Windows machine, though — a GitHub Actions
+workflow builds it for you on a Windows runner.
+
+**No Windows box (macOS/Linux):** trigger the CI build and download the artifact.
+
+```bash
+gh workflow run build.yml   # manual build; uploads the .exe as an artifact
+gh run watch                # wait for it to finish
+gh run download             # grab v232-launcher-win-x64 (the .exe + WpfAnimatedGif.dll)
+```
+
+Pushing a version tag (`git tag v232.x && git push origin v232.x`) builds **and**
+publishes a GitHub Release with the `.exe` attached. See
+`.github/workflows/build.yml`.
+
+**On Windows:** open the solution in Visual Studio 2022, or from a Developer
+prompt run:
+
+```powershell
+nuget restore v232.Launcher.WPF.sln
+msbuild v232.Launcher.WPF.csproj /p:Configuration=Release /t:Rebuild
+# -> bin\Release\v232 Launcher.exe  (copy it + WpfAnimatedGif.dll to your game folder)
+```
+
+> Note: a Linux Docker container **cannot** build this (WPF is Windows-only), and
+> Docker Desktop on Apple Silicon can't run Windows containers — hence the CI route.
+
+---
+
 ## 🧾 Credits
 
 **Backend**

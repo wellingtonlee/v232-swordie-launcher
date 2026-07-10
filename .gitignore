@@ -1,4 +1,11 @@
 
+# Build output / intermediates
+bin/
+obj/
+
+# Agent tooling
+.claude/
+
 # Beads / Dolt files (added by bd init)
 .dolt/
 *.db
