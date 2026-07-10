@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "v232_swordie_launcher",
+  "project_id": "122f38c7-b13a-4286-b279-216c6157efbe"
+}
